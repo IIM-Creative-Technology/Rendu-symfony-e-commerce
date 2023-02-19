@@ -1,0 +1,26 @@
+{% block title %}Bienvenue sur la page d'inscription !{% endblock %}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+
+    {{ form_row(form.first_name) }}
+
+    {{ form_row(form.last_name) }}
+
+    {{ form_row(form.email) }}
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        {{ form_widget(form.password, {'attr': {'type': 'password'}}) }}
+        {{ form_errors(form.password) }}
+    </div>
+
+    <button type="submit">Enregistrer</button>
+
+    {{ form_end(form) }}
+
+{% endblock %}
+
+
