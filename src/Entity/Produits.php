@@ -19,18 +19,17 @@ class Produits
     #[ORM\Column(nullable: true)]
     private ?float $prix = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $image = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
-
     #[ORM\Column(nullable: true)]
     private ?float $stock = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description = null;
+
     #[ORM\ManyToOne(inversedBy: 'produits')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Categorie $categorie = null;
+    private ?Categorie $categorie_id = null;
 
     public function getId(): ?int
     {
@@ -61,30 +60,6 @@ class Produits
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
     public function getStock(): ?float
     {
         return $this->stock;
@@ -98,14 +73,38 @@ class Produits
     }
 
 
-    public function getCategorie(): ?Categorie
+    public function getImage(): ?string
     {
-        return $this->categorie;
+        return $this->image;
     }
 
-    public function setCategorie(?Categorie $categorie): self
+    public function setImage(?string $image): self
     {
-        $this->categorie = $categorie;
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCategorieId(): ?Categorie
+    {
+        return $this->categorie_id;
+    }
+
+    public function setCategorieId(?Categorie $categorie_id): self
+    {
+        $this->categorie_id = $categorie_id;
 
         return $this;
     }
