@@ -54,6 +54,19 @@ class Categorie
         return $this->produits;
     }
 
+    private $slug;
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
     public function addProduit(Produits $produit): self
     {
         if (!$this->produits->contains($produit)) {
@@ -87,4 +100,5 @@ class Categorie
 
         return $this;
     }
+
 }
