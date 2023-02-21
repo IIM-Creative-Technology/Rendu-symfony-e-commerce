@@ -20,9 +20,7 @@ class Categorie
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
-
-    #[ORM\OneToMany(mappedBy: 'categorie_id', targetEntity: Produits::class)]
-    private Collection $produits;
+    
 
     public function __construct()
     {
@@ -55,6 +53,9 @@ class Categorie
     }
 
     private $slug;
+
+    #[ORM\OneToMany(mappedBy: 'categorie', targetEntity: Produits::class)]
+    private Collection $produits;
 
     public function getSlug()
     {

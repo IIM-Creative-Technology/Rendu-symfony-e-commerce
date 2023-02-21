@@ -20,7 +20,7 @@ class DefaultController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -30,8 +30,8 @@ class DefaultController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $user = new User();
-            $form = $this->createForm(UserType::class, $user);
+            // Rediriger l'utilisateur vers la page de connexion
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('default/index.html.twig', [
@@ -39,7 +39,6 @@ class DefaultController extends AbstractController
         ]);
     }
 }
-
 
 
 

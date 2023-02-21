@@ -18,14 +18,20 @@ class AppFixtures extends Fixture
     {
     }
 
-    public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager)
     {
 
         for ($i = 1; $i <= 10; $i++) {
-            $Categorie = new Categorie();
-            $Categorie->setName('Categorie' . $i);
-            $manager->persist($Categorie);
+            $categorie = new Categorie();
+            $categorie->setName('Catégorie ' . $i);
+
+            $image = sprintf('https://picsum.photos/400/300?random=%d', $i);
+            $categorie->setImage($image);
+
+            $manager->persist($categorie);
         }
+
+        $manager->flush();
 
 
         for ($i = 1; $i <= 50; $i++) {
@@ -41,11 +47,29 @@ class AppFixtures extends Fixture
 
         }
 
-        for ($i = 1; $i <= 200; $i++) {
-            $Categorie = new Produits();
-            $Categorie->setName('Produits' . $i);
-            $manager->persist($Categorie);
+        $categories = $manager->getRepository(Categorie::class)->findAll();
+
+        $produit_groups = array_chunk(range(1, 200), 20);
+
+        foreach ($produit_groups as $index => $produit_group) {
+            foreach ($produit_group as $produit_id) {
+                $produit = new Produits();
+                $produit->setName('Produit ' . $produit_id);
+                $produit->setPrix(mt_rand(100, 1000));
+                $produit->setStock(mt_rand(10, 100));
+                $produit->setDescription('Description du produit ' . $produit_id);
+                $image = sprintf('https://picsum.photos/400/300?random=%d', $produit_id);
+                $produit->setImage($image);
+
+                // attribution de la catégorie correspondante
+                $categorie = $categories[($index + $produit_id) % 10];
+                $produit->setCategorie($categorie);
+
+                $manager->persist($produit);
+            }
         }
+
+        $manager->flush();
 
         $user->setRoles(['PUBLIC_ACCESS']);
         $manager->flush();

@@ -3,10 +3,26 @@
 {% block title %}Liste de produits{% endblock %}
 
 {% block body %}
-    <h1>Liste de produits pour la {{ categorie.name }}</h1>
-    <ul>
-        {% for produit in produits %}
-            <li>{{ produit.name }}</li>
-        {% endfor %}
-    </ul>
+    <h1>Liste des produits de la {{ categorie.name }}</h1>
+    <div>
+        <ul>
+            {% for produit in produits %}
+                <li>
+                    <a href="{{ path('produit_app', {'id': produit.id}) }}">
+                        {{ produit.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <form method="post" action="{{ path('categorie_app', {'id': categorie.id}) }}">
+        <button type="submit" name="sort" value="desc">Trier du plus cher au moins cher</button>
+    </form>
+
+    <br>
+
+    <form method="post" action="{{ path('categorie_app', {'id': categorie.id}) }}">
+        <button type="submit" name="sort" value="asc">Trier du moins cher au plus cher</button>
+    </form>
 {% endblock %}

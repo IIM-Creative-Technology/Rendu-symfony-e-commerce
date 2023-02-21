@@ -1,20 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProduitController!{% endblock %}
+{% block title %}Information du produit{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Information du {{ produits.name }}</h1>
+    <img src="{{ produits.image }}" alt="{{ produits.name }}">
+    <p>Prix: {{ produits.prix }} €</p>
+    <p>Stock: {{ produits.stock }}</p>
+    <p>Description: {{ produits.description }}</p>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <form action="{{ path('ajouter_au_panier', {'id': produits.id}) }}" method="post">
+        <button type="submit" class="btn btn-primary">Ajouter au panier</button>
+    </form>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/crusix74/Sites/e-commerce/src/Controller/ProduitController.php'|file_link(0) }}">src/Controller/ProduitController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/crusix74/Sites/e-commerce/templates/produit/index.html.twig'|file_link(0) }}">templates/produit/index.html.twig</a></code></li>
-    </ul>
-</div>
+<h2>Autres produits de la même catégorie</h2>
+<ul>
+    {% for produit in produits.categorie.produits %}
+        {% if produit.id != produits.id %}
+            <li>
+                <a href="{{ path('produit_app', {'id': produit.id}) }}">{{ produit.name }}</a>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>
 {% endblock %}
